@@ -1,10 +1,13 @@
 import os
 import base64
+import html
 
 from flask import Flask, request
 from model import Message 
 
 app = Flask(__name__)
+
+s = html.escape("""& < " ' >""")
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -31,7 +34,7 @@ def home():
 <div class="message">
 {}
 </div>
-""".format(m.content)
+""".format(m.content.replace('<', '&lt;').replace('>', '&gt;'))
 
     return body 
 
